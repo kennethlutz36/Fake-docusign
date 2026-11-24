@@ -1,35 +1,134 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Confidential NDA</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confidential Non-Disclosure Agreement</title>
 <style>
-body{font-family:Georgia,serif;background:#f4f1ea;margin:0;display:flex;justify-content:center}
-.doc{background:#fff;max-width:600px;margin:30px;padding:40px;box-shadow:0 4px 20px #0002}
-h1{text-align:center;font-size:22px;letter-spacing:2px}
-input{width:100%;font:24px 'Brush Script MT',cursive;border:0;border-bottom:1px solid #000;padding:6px}
-button{margin-top:20px;width:100%;padding:14px;background:#1a237e;color:#fff;border:0;font-size:16px;cursor:pointer}
-#reveal{position:fixed;inset:0;background:radial-gradient(#ff4f8b,#7b1fa2);display:none;align-items:center;justify-content:center;overflow:hidden}
-#reveal h2{color:#fff;font:bold 15vw sans-serif;animation:pop 1s cubic-bezier(.2,2,.4,1) forwards;transform:scale(0)}
+*{box-sizing:border-box}
+body{margin:0;background:#d9dce1;font-family:"Times New Roman",Times,serif;color:#111;display:flex;justify-content:center}
+.page{background:#fff;width:100%;max-width:760px;margin:24px 12px;padding:44px 56px 36px;box-shadow:0 6px 28px #0003;border-top:6px solid #14284b;position:relative}
+.head{text-align:center;border-bottom:2px double #14284b;padding-bottom:12px;margin-bottom:16px}
+.firm{font-size:11px;letter-spacing:4px;color:#14284b;text-transform:uppercase}
+h1{margin:6px 0 2px;font-size:22px;letter-spacing:3px;color:#14284b}
+.sub{font-size:12px;font-style:italic;color:#444}
+.meta{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:10px;color:#333}
+.stamp{position:absolute;top:70px;right:36px;border:2px solid #b3202a;color:#b3202a;font:bold 11px Arial,sans-serif;letter-spacing:2px;padding:3px 8px;transform:rotate(8deg);opacity:.8}
+p,li{font-size:12.5px;line-height:1.5;margin:0 0 7px;text-align:justify}
+ol{padding-left:20px;margin:6px 0 10px}
+.parties{margin-bottom:8px}
+.sig{display:flex;gap:28px;margin-top:14px;align-items:flex-end}
+.sig div{flex:1}
+.sig label{font:bold 10px Arial,sans-serif;letter-spacing:1px;text-transform:uppercase;color:#14284b}
+.line{border-bottom:1px solid #000;height:34px;font:26px "Brush Script MT","Segoe Script",cursive;padding:2px 4px}
+input#sig{width:100%;border:0;border-bottom:1px solid #000;font:26px "Brush Script MT","Segoe Script",cursive;padding:2px 4px;height:34px;background:#fffbe6;outline:none}
+.sigline{font-size:10px;color:#555;margin-top:2px}
+.ack{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:12px}
+button.go{margin-top:12px;width:100%;padding:12px;background:#14284b;color:#fff;border:0;font:bold 13px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+button.go:hover{background:#1d3a70}
+.foot{text-align:center;font-size:9.5px;color:#777;margin-top:10px;border-top:1px solid #ccc;padding-top:6px}
+
+/* reveal stages */
+.stage{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:20px;z-index:10}
+.stage.on{display:flex}
+.stage h2{color:#fff;font:900 13vw/1 "Arial Black",Impact,sans-serif;margin:0;text-shadow:0 6px 0 #0004;transform:scale(0)}
+.stage.on h2{animation:pop .9s cubic-bezier(.2,2,.4,1) forwards}
+.stage p.cap{color:#fff;font:bold 4.5vw Arial,sans-serif;text-align:center;margin-top:14px;opacity:0}
+.stage.on p.cap{animation:fade 1s .7s forwards}
 @keyframes pop{to{transform:scale(1) rotate(-4deg)}}
-.heart{position:absolute;bottom:-50px;font-size:30px;animation:rise linear forwards}
-@keyframes rise{to{transform:translateY(-120vh) rotate(360deg);opacity:0}}
+@keyframes fade{to{opacity:1}}
+#s1{background:repeating-linear-gradient(45deg,#ffd600 0 30px,#ffb300 30px 60px)}
+#s1 h2{color:#d50000}
+#s1 p.cap{color:#222}
+#s2{background:radial-gradient(#ff4f8b,#7b1fa2)}
+#s3{background:linear-gradient(135deg,#ff6ec7,#7873f5,#4adede,#ff6ec7);background-size:400% 400%;animation:bg 6s linear infinite}
+@keyframes bg{50%{background-position:100% 100%}}
+.next{position:absolute;bottom:6vh;right:6vw;background:#fff;color:#7b1fa2;border:0;border-radius:50px;padding:14px 26px;font:bold 20px Arial,sans-serif;cursor:pointer;box-shadow:0 6px 0 #0004;opacity:0;animation:fade .6s 1.6s forwards,nudge 1s 2.2s infinite}
+.next:active{transform:translateY(4px);box-shadow:0 2px 0 #0004}
+@keyframes nudge{50%{transform:translateX(10px)}}
+.fl{position:absolute;bottom:-60px;animation:rise linear forwards;pointer-events:none}
+@keyframes rise{to{transform:translateY(-125vh) rotate(360deg);opacity:0}}
+.shake{animation:shake .5s 3}
+@keyframes shake{25%{transform:translateX(-12px)}75%{transform:translateX(12px)}}
+.dancer{font-size:15vw;display:inline-block;animation:dance .6s ease-in-out infinite alternate}
+@keyframes dance{from{transform:rotate(-14deg) translateY(0) scale(1)}to{transform:rotate(14deg) translateY(-18px) scale(1.12)}}
+.eq{display:flex;gap:5px;align-items:flex-end;height:60px;margin:10px 0}
+.eq i{width:12px;background:#fff;border-radius:3px;animation:eq .5s ease-in-out infinite alternate}
+@keyframes eq{from{height:8px}to{height:60px}}
+.lyric{color:#fff;font:bold 6vw Arial,sans-serif;text-shadow:0 3px 0 #0004;min-height:1.3em}
+.yt{margin-top:14px;width:min(86vw,420px);aspect-ratio:16/9;border:4px solid #fff;border-radius:12px;box-shadow:0 8px 0 #0004;background:#000}
+a.fb{color:#fff;font:12px Arial,sans-serif;margin-top:8px}
+@media(max-width:600px){.page{padding:28px 20px}.stamp{display:none}.sig{flex-direction:column;align-items:stretch;gap:12px}}
 </style></head><body>
-<div class="doc">
-<h1>NON-DISCLOSURE AGREEMENT</h1>
-<p><b>Re:</b> The Highly Classified Five-Page Background Report</p>
-<p>1. The Recipient agrees that the contents of said report are top secret and may not be shared with friends, group chats, or her mum.</p>
-<p>2. The Recipient acknowledges the report was compiled with extreme diligence and possibly too much free time.</p>
-<p>3. Any breach of this agreement will be punishable by one (1) dinner date.</p>
-<p>4. By signing, the Recipient accepts all findings contained herein, however flattering.</p>
-<p><b>Signature of Recipient:</b></p>
-<input id="sig" placeholder="Type your name to sign">
-<button onclick="sign()">Sign &amp; Unlock Report</button>
+
+<div class="page">
+ <div class="stamp">CONFIDENTIAL</div>
+ <div class="head">
+  <div class="firm">Office of Special Affairs &amp; Admiration</div>
+  <h1>NON-DISCLOSURE AGREEMENT</h1>
+  <div class="sub">Mutual Confidentiality &amp; Non-Circumvention Agreement &mdash; Ref. No. NDA-2026-0001</div>
+ </div>
+ <div class="meta"><span><b>Effective Date:</b> <span id="d"></span></span><span><b>Classification:</b> Eyes Only &mdash; Level 5</span></div>
+
+ <p class="parties">This Non-Disclosure Agreement (the &ldquo;Agreement&rdquo;) is entered into by and between the <b>Disclosing Party</b> (&ldquo;Discloser&rdquo;) and the undersigned <b>Receiving Party</b> (&ldquo;Recipient&rdquo;), concerning the confidential five-page background report (the &ldquo;Report&rdquo;) prepared by the Discloser.</p>
+
+ <ol>
+  <li><b>Confidential Information.</b> &ldquo;Confidential Information&rdquo; means the Report in its entirety, including all findings, observations, conclusions and appendices, in any form whatsoever.</li>
+  <li><b>Non-Disclosure.</b> The Recipient shall hold the Confidential Information in strict confidence and shall not disclose it to any third party, including without limitation friends, group chats, colleagues, or the Recipient&rsquo;s mother.</li>
+  <li><b>Standard of Care.</b> The Recipient shall protect the Confidential Information with at least the same degree of care used for her own most valuable secrets, and no less than reasonable care.</li>
+  <li><b>Acknowledgment of Diligence.</b> The Recipient acknowledges that the Report was compiled with extreme diligence, and possibly an excessive amount of free time.</li>
+  <li><b>Acceptance of Findings.</b> By executing this Agreement, the Recipient accepts all findings contained herein, however flattering, and waives any right to dispute them.</li>
+  <li><b>Remedies.</b> Any breach of this Agreement shall be remedied by one (1) dinner date, location and cuisine to be mutually agreed, with the Discloser paying.</li>
+  <li><b>Term.</b> This Agreement shall remain in effect indefinitely, or until the dinner contemplated in Section 6 is completed, whichever occurs later.</li>
+  <li><b>Governing Law &amp; Entire Agreement.</b> This Agreement is governed by the laws of Good Vibes and constitutes the entire agreement of the parties on its subject matter.</li>
+ </ol>
+
+ <p>IN WITNESS WHEREOF, the Recipient has executed this Agreement as of the Effective Date.</p>
+
+ <div class="sig">
+  <div><label>Recipient Signature</label><input id="sig" placeholder="Type full legal name to sign" autocomplete="off"><div class="sigline">Signature of Receiving Party</div></div>
+  <div style="flex:.6"><label>Date</label><div class="line" style="font:16px Georgia,serif;padding-top:10px" id="d2"></div><div class="sigline">Date of Execution</div></div>
+ </div>
+ <div class="ack"><input type="checkbox" id="ck"><label for="ck">I have read, understood, and agree to be bound by the terms of this Agreement.</label></div>
+ <button class="go" onclick="sign()">Sign &amp; Unlock Report</button>
+ <div class="foot">Page 1 of 1 &nbsp;|&nbsp; Strictly Private &amp; Confidential &nbsp;|&nbsp; Unauthorised distribution may result in dinner</div>
 </div>
-<div id="reveal"><h2>You're sexy 😏</h2></div>
+
+<div class="stage" id="s1"><h2>GOTCHA! 😜</h2><p class="cap">Did you really think this was legally binding?</p><button class="next" onclick="go(2)">next ➜</button></div>
+<div class="stage" id="s2"><h2>You're sexy 😏</h2><p class="cap">Just wanted you to know. That's the whole report.</p><button class="next" onclick="go(3)">one more thing ➜</button></div>
+<div class="stage" id="s3">
+ <div class="dancer" id="dn">🕺</div>
+ <div class="eq" id="eq"></div>
+ <div class="lyric" id="ly">Never gonna give you up…</div>
+ <div id="yt"></div>
+ <a class="fb" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">no sound? tap here for the song 🎵</a>
+</div>
+
 <script>
-function sign(){
- if(!document.getElementById('sig').value.trim()){alert('Signature required, legally speaking.');return}
- const r=document.getElementById('reveal');r.style.display='flex';
- setInterval(()=>{const h=document.createElement('div');h.className='heart';h.textContent='❤️';
- h.style.left=Math.random()*100+'vw';h.style.animationDuration=(3+Math.random()*3)+'s';
- r.appendChild(h);setTimeout(()=>h.remove(),6000)},200);
+const $=id=>document.getElementById(id);
+const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+$('d').textContent=today;$('d2').textContent=today;
+const eq=$('eq');for(let i=0;i<14;i++){const b=document.createElement('i');b.style.animationDelay=(Math.random()*.5)+'s';b.style.animationDuration=(.3+Math.random()*.4)+'s';eq.appendChild(b)}
+let timers=[];
+function burst(stage,emojis,every){
+  return setInterval(()=>{const e=document.createElement('div');e.className='fl';
+    e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=Math.random()*100+'vw';e.style.fontSize=(24+Math.random()*34)+'px';
+    e.style.animationDuration=(3+Math.random()*3)+'s';stage.appendChild(e);setTimeout(()=>e.remove(),6500)},every);
 }
-</script></body></html>
+function show(n){document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on'));$('s'+n).classList.add('on')}
+function sign(){
+  if(!$('sig').value.trim()){alert('Signature required, legally speaking.');return}
+  if(!$('ck').checked){alert('Please acknowledge that you have read the Agreement.');return}
+  go(1);
+}
+function go(n){
+  timers.forEach(clearInterval);timers=[];
+  show(n);
+  if(n===1){const s=$('s1');s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake');timers.push(burst(s,['🎉','🎊','😜','🤪','✨'],120))}
+  if(n===2){timers.push(burst($('s2'),['❤️','💖','💋','😏','🔥'],150))}
+  if(n===3){
+    const s=$('s3');timers.push(burst(s,['🎵','🎶','🕺','💃','❤️','🌹'],140));
+    const lines=['Never gonna give you up…','Never gonna let you down…','Never gonna run around…','…and ask you out for dinner 😘','Never gonna say goodbye…','Your move 😏'];
+    let i=0;$('ly').textContent=lines[0];timers.push(setInterval(()=>{i=(i+1)%lines.length;$('ly').textContent=lines[i];$('dn').textContent=['🕺','💃','😎','🥰'][i%4]},2600));
+    $('yt').innerHTML='<iframe class="yt" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&playsinline=1" title="Song" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  }
+}
+</script>
+</body></html>
