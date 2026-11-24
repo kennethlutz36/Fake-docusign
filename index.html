@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confidential NDA</title>
+<style>
+body{font-family:Georgia,serif;background:#f4f1ea;margin:0;display:flex;justify-content:center}
+.doc{background:#fff;max-width:600px;margin:30px;padding:40px;box-shadow:0 4px 20px #0002}
+h1{text-align:center;font-size:22px;letter-spacing:2px}
+input{width:100%;font:24px 'Brush Script MT',cursive;border:0;border-bottom:1px solid #000;padding:6px}
+button{margin-top:20px;width:100%;padding:14px;background:#1a237e;color:#fff;border:0;font-size:16px;cursor:pointer}
+#reveal{position:fixed;inset:0;background:radial-gradient(#ff4f8b,#7b1fa2);display:none;align-items:center;justify-content:center;overflow:hidden}
+#reveal h2{color:#fff;font:bold 15vw sans-serif;animation:pop 1s cubic-bezier(.2,2,.4,1) forwards;transform:scale(0)}
+@keyframes pop{to{transform:scale(1) rotate(-4deg)}}
+.heart{position:absolute;bottom:-50px;font-size:30px;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-120vh) rotate(360deg);opacity:0}}
+</style></head><body>
+<div class="doc">
+<h1>NON-DISCLOSURE AGREEMENT</h1>
+<p><b>Re:</b> The Highly Classified Five-Page Background Report</p>
+<p>1. The Recipient agrees that the contents of said report are top secret and may not be shared with friends, group chats, or her mum.</p>
+<p>2. The Recipient acknowledges the report was compiled with extreme diligence and possibly too much free time.</p>
+<p>3. Any breach of this agreement will be punishable by one (1) dinner date.</p>
+<p>4. By signing, the Recipient accepts all findings contained herein, however flattering.</p>
+<p><b>Signature of Recipient:</b></p>
+<input id="sig" placeholder="Type your name to sign">
+<button onclick="sign()">Sign &amp; Unlock Report</button>
+</div>
+<div id="reveal"><h2>You're sexy 😏</h2></div>
+<script>
+function sign(){
+ if(!document.getElementById('sig').value.trim()){alert('Signature required, legally speaking.');return}
+ const r=document.getElementById('reveal');r.style.display='flex';
+ setInterval(()=>{const h=document.createElement('div');h.className='heart';h.textContent='❤️';
+ h.style.left=Math.random()*100+'vw';h.style.animationDuration=(3+Math.random()*3)+'s';
+ r.appendChild(h);setTimeout(()=>h.remove(),6000)},200);
+}
+</script></body></html>
