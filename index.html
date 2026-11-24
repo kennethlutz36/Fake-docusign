@@ -1,4 +1,4 @@
-<title>Confidential NDA</title>
+<title>Super Super Super Official Non-Disclosure Document</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 *{box-sizing:border-box}
@@ -113,18 +113,10 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
 </div>
 
 <div class="stage" id="s1"><h2>GOTCHA! 😜</h2><p class="cap">Did you really think this was legally binding?</p><button class="next" onclick="go(2)">next ➜</button></div>
-<div class="stage" id="s2"><h2>You're sexy 😏</h2><p class="cap">Just wanted you to know. That's the whole report.</p><button class="next" onclick="go(3)">one more thing ➜</button></div>
-<div class="stage" id="s3">
- <div class="dancer" id="dn">🕺</div>
- <div class="eq" id="eq"></div>
- <div class="lyric" id="ly">Never gonna give you up…</div>
- <a class="play" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">▶ Press play 🎵</a>
- <button class="next" onclick="go(4)">come back &amp; tap next ➜</button>
-</div>
+<div class="stage" id="s2"><h2>You're sexy 😏</h2><p class="cap">Just wanted you to know. That's the whole report.</p><button class="next" onclick="go(4)">one more thing ➜</button></div>
 <div class="stage" id="s4"><h2 class="sm">I've been practicing my Spanish 🇪🇸</h2><p class="cap big">to help you on your next PA school exam 📚🩺</p><button class="next" onclick="go(5)">next ➜</button></div>
-<div class="stage" id="s5"><h2 class="md">“¿Dónde le duele?”<br>“En el corazón, doctora. Desde que la vi.”</h2><p class="tr">“Where does it hurt?” “In my heart, doctor. Ever since I saw you.” 💘</p><button class="next" onclick="go(6)">next ➜</button></div>
-<div class="stage" id="s6"><h2 class="md">I'm back December 12th 🎄</h2><p class="cap big">to host the Banner holiday party 🥂</p><button class="next" onclick="go(7)">next ➜</button></div>
-<div class="stage" id="s7"><h2 class="md">I have reservations the following Monday 🍽️</h2><p class="cap big">…and I need a date.</p><button class="next" onclick="go(8)">next ➜</button></div>
+<div class="stage" id="s5"><h2 class="md">“Doctora, vine porque tengo una condición muy especial…<br>y usted es la única que sabe la respuesta.”</h2><p class="tr">“Doctor, I came because I have a very special condition… and you're the only one who knows the answer.” 🩺💘 (Symptoms: butterflies, sweaty palms, can't stop thinking about you.)</p><button class="next" onclick="go(7)">next ➜</button></div>
+<div class="stage" id="s7"><h2 class="md">I need a date Monday, December 14th 🍽️</h2><p class="cap big">for my dinner reservation.</p><button class="next" onclick="go(8)">next ➜</button></div>
 <div class="stage" id="s8"><h2 class="md">Will you be my date? 💘</h2><p class="cap big">Dinner, Monday after the party. I'm paying (see Section 6).</p>
  <div class="btns"><button class="yes" id="yes" onclick="celebrate()">YES 💖</button><button class="no" id="no">no</button></div></div>
 <div class="stage" id="s9"><div class="ring"></div><div class="ring" style="animation-delay:.6s"></div><div class="ring" style="animation-delay:1.2s"></div><div class="dancer" style="font-size:22vw">🥰</div><h2 class="sm" style="margin-top:10px">She said YES! 🎉</h2><p class="cap big">Dinner is officially binding. Wear something cute. 😘</p></div>
@@ -133,7 +125,6 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
 const $=id=>document.getElementById(id);
 const today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
 $('d').textContent=today;$('d2').textContent=today;
-const eq=$('eq');for(let i=0;i<14;i++){const b=document.createElement('i');b.style.animationDelay=(Math.random()*.5)+'s';b.style.animationDuration=(.3+Math.random()*.4)+'s';eq.appendChild(b)}
 let timers=[];
 function burst(stage,emojis,every){
   return setInterval(()=>{const e=document.createElement('div');e.className='fl';
@@ -149,17 +140,13 @@ function sign(){
   err.textContent='';
   go(1);
 }
-const emo={1:['🎉','🎊','😜','🤪','✨'],2:['❤️','💖','💋','😏','🔥'],3:['🎵','🎶','🕺','💃','❤️','🌹'],4:['📚','🩺','🇪🇸','💊','✏️'],5:['💘','🌶️','💃','🌹','🇪🇸'],6:['🎄','🎁','🥂','✨','❄️'],7:['🍷','🍝','🕯️','💕'],8:['💘','💗','💞','😍']};
+const emo={1:['🎉','🎊','😜','🤪','✨'],2:['❤️','💖','💋','😏','🔥'],4:['📚','🩺','🇪🇸','💊','✏️'],5:['💘','🌶️','💃','🌹','🇪🇸'],7:['🍷','🍝','🕯️','💕'],8:['💘','💗','💞','😍']};
 function go(n){
   timers.forEach(clearInterval);timers=[];
   show(n);
   const s=$('s'+n);
   if(n===1){s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake')}
   if(emo[n])timers.push(burst(s,emo[n],n===1?120:170));
-  if(n===3){
-    const lines=['Never gonna give you up…','Never gonna let you down…','Never gonna run around…','…and ask you out for dinner 😘','Never gonna say goodbye…','Your move 😏'];
-    let i=0;$('ly').textContent=lines[0];timers.push(setInterval(()=>{i=(i+1)%lines.length;$('ly').textContent=lines[i];$('dn').textContent=['🕺','💃','😎','🥰'][i%4]},2600));
-  }
 }
 function celebrate(){
   go(9);const s=$('s9');
