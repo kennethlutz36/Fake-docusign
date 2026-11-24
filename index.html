@@ -60,6 +60,7 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
 #s5{background:linear-gradient(135deg,#e53935,#fb8c00,#fdd835);}
 #s6{background:linear-gradient(135deg,#1b5e20,#c62828)}
 #s7{background:radial-gradient(#ff80ab,#c2185b 60%,#4a0072)}
+#s10{background:linear-gradient(135deg,#455a64,#7e57c2)}
 #s8{background:radial-gradient(#fff59d,#ff4081 55%,#6a1b9a)}
 .stage h2,.stage p,.btns,.dancer,.eq,.lyric,.play{position:relative;z-index:2}
 .stage h2.sm{font-size:9vw;max-width:90vw}
@@ -116,10 +117,11 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
 <div class="stage" id="s2"><h2>You're sexy 😏</h2><p class="cap">Just wanted you to know. That's the whole report.</p><button class="next" onclick="go(4)">one more thing ➜</button></div>
 <div class="stage" id="s4"><h2 class="sm">I've been practicing my Spanish 🇪🇸</h2><p class="cap big">to help you on your next PA school exam 📚🩺</p><button class="next" onclick="go(5)">next ➜</button></div>
 <div class="stage" id="s5"><h2 class="md">“Doctora, tengo una condición muy especial…<br>y me dijeron que usted es la única que puede curarme.”</h2><p class="tr">“Doctor, I have a very special condition… and I heard you're the only one who can fix it.” 🩺💘<br>Symptoms: butterflies, sweaty palms, stalkerish behavior.</p><button class="next" onclick="go(7)">next ➜</button></div>
-<div class="stage" id="s7"><h2 class="md">I need a date Monday, December 14th 🍽️</h2><p class="cap big">for my dinner reservation.</p><button class="next" onclick="go(8)">next ➜</button></div>
-<div class="stage" id="s8"><h2 class="md">Will you be my date? 💘</h2><p class="cap big">I'll be down in Tucson. Dinner Monday, December 14th, and I'm paying (see Section 6).</p>
- <div class="btns"><button class="yes" id="yes" onclick="celebrate()">YES 💖</button><button class="no" id="no">no</button></div></div>
-<div class="stage" id="s9"><div class="ring"></div><div class="ring" style="animation-delay:.6s"></div><div class="ring" style="animation-delay:1.2s"></div><div class="dancer" style="font-size:22vw">🥰</div><h2 class="sm" style="margin-top:10px">She said YES! 🎉</h2><p class="cap big">Dinner is officially binding. Wear something cute. 😘</p></div>
+<div class="stage" id="s7"><h2 class="md">Wait, you have finals the week of December 14th 📚</h2><p class="cap big">Can't have you failing out of PA school on my account. Studying comes first. 🩺</p><button class="next" onclick="go(8)">next ➜</button></div>
+<div class="stage" id="s8"><h2 class="md">I'm free the weekend of December 19th–20th 💘</h2><p class="cap big">Dinner in Tucson, before I fly home on the 22nd. I'm paying (see Section 6).</p>
+ <div class="btns"><button class="yes" id="yes" onclick="celebrate()">Weekend works 💖</button><button class="no" id="no">or push to Q1 📅</button></div></div>
+<div class="stage" id="s10"><h2 class="md">Q1 it is. 📅</h2><p class="cap big">Noted. I'll be counting the days… 91 of them. 😭<br>Or you could reconsider. 😏</p><button class="next" onclick="celebrate()">Fine, weekend 💖</button></div>
+<div class="stage" id="s9"><div class="ring"></div><div class="ring" style="animation-delay:.6s"></div><div class="ring" style="animation-delay:1.2s"></div><div class="dancer" style="font-size:22vw">🥰</div><h2 class="sm" style="margin-top:10px">She said YES! 🎉</h2><p class="cap big">Dinner in Tucson, December 19th or 20th, you pick. Wear something cute. 😘</p></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -140,7 +142,7 @@ function sign(){
   err.textContent='';
   go(1);
 }
-const emo={1:['🎉','🎊','😜','🤪','✨'],2:['❤️','💖','💋','😏','🔥'],4:['📚','🩺','🇪🇸','💊','✏️'],5:['💘','🌶️','💃','🌹','🇪🇸'],7:['🍷','🍝','🕯️','💕'],8:['💘','💗','💞','😍']};
+const emo={1:['🎉','🎊','😜','🤪','✨'],2:['❤️','💖','💋','😏','🔥'],4:['📚','🩺','🇪🇸','💊','✏️'],5:['💘','🌶️','💃','🌹','🇪🇸'],7:['🍷','🍝','🕯️','💕'],8:['💘','💗','💞','😍'],10:['📅','😭','⏳','😏']};
 function go(n){
   timers.forEach(clearInterval);timers=[];
   show(n);
@@ -157,7 +159,20 @@ function celebrate(){
     d.style.animationDuration=(2+Math.random()*3)+'s';d.style.animationDelay=(Math.random()*1.2)+'s';s.appendChild(d)}
   timers.push(burst(s,e,100));
 }
-const no=$('no');
-function dodge(ev){ev.preventDefault();no.style.left=(Math.random()*200-100)+'px';no.style.top=(Math.random()*120-60)+'px';no.textContent=['nope 😜','too slow!','try YES 😏','nice try'][Math.floor(Math.random()*4)]}
-no.addEventListener('mouseenter',dodge);no.addEventListener('touchstart',dodge);no.addEventListener('click',dodge);
+const no=$('no');let dodges=0,cx=0,cy=0;
+const taunts=['nope 😜','too slow!','almost 😏','so close…'];
+function dodge(ev){
+  if(dodges>=4)return;
+  ev.preventDefault();
+  const r=no.getBoundingClientRect(),bx=r.left-cx,by=r.top-cy;
+  dodges++;
+  no.style.transition='transform .3s';
+  if(dodges<4){
+    const x=16+Math.random()*(innerWidth-r.width-32),y=16+Math.random()*(innerHeight-r.height-32);
+    cx=x-bx;cy=y-by;no.textContent=taunts[dodges-1];
+  }else{cx=0;cy=0;no.textContent='okay… Q1 📅'}
+  no.style.transform='translate('+cx+'px,'+cy+'px)';
+}
+no.addEventListener('mouseenter',dodge);no.addEventListener('touchstart',dodge,{passive:false});
+no.addEventListener('click',ev=>{if(dodges<4)dodge(ev);else go(10)});
 </script>
