@@ -55,6 +55,26 @@ button.go:hover{background:#1d3a70}
 .lyric{color:#fff;font:bold 6vw Arial,sans-serif;text-shadow:0 3px 0 #0004;min-height:1.3em}
 .yt{margin-top:14px;width:min(86vw,420px);aspect-ratio:16/9;border:4px solid #fff;border-radius:12px;box-shadow:0 8px 0 #0004;background:#000}
 a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border-radius:50px;padding:16px 34px;font:bold 22px Arial,sans-serif;box-shadow:0 6px 0 #0004;animation:nudge 1s infinite}
+
+#s4{background:linear-gradient(135deg,#00897b,#26c6da)}
+#s5{background:linear-gradient(135deg,#e53935,#fb8c00,#fdd835);}
+#s6{background:linear-gradient(135deg,#1b5e20,#c62828)}
+#s7{background:radial-gradient(#ff80ab,#c2185b 60%,#4a0072)}
+#s8{background:radial-gradient(#fff59d,#ff4081 55%,#6a1b9a)}
+.stage h2,.stage p,.btns,.dancer,.eq,.lyric,.play{position:relative;z-index:2}
+.stage h2.sm{font-size:9vw;max-width:90vw}
+.stage h2.md{font-size:7vw;max-width:90vw}
+.stage p.cap.big{font-size:5vw;max-width:90vw}
+.stage p.tr{color:#fff;font:italic 3.6vw Arial,sans-serif;opacity:.9;margin-top:6px;text-align:center;max-width:90vw}
+.btns{display:flex;gap:22px;margin-top:26px;align-items:center;justify-content:center;flex-wrap:wrap;opacity:0}
+.stage.on .btns{animation:fade .6s 1.4s forwards}
+.yes{background:#fff;color:#c2185b;border:0;border-radius:50px;padding:18px 44px;font:bold 28px Arial,sans-serif;cursor:pointer;box-shadow:0 7px 0 #0004;animation:beat .8s infinite}
+.yes:active{transform:translateY(4px)}
+.no{background:#0003;color:#fff;border:0;border-radius:50px;padding:10px 20px;font:bold 15px Arial,sans-serif;cursor:pointer;position:relative}
+@keyframes beat{50%{transform:scale(1.1)}}
+.ring{position:absolute;left:50%;top:50%;width:20px;height:20px;border:6px solid #fff;border-radius:50%;transform:translate(-50%,-50%);animation:ring 2s ease-out infinite;opacity:0}
+@keyframes ring{0%{width:20px;height:20px;opacity:1}100%{width:140vmax;height:140vmax;opacity:0}}
+@media(prefers-reduced-motion:reduce){.stage *{animation-duration:.01s!important}}
 @media(max-width:600px){.page{padding:28px 20px}.stamp{display:none}.sig{flex-direction:column;align-items:stretch;gap:12px}}
 </style></head><body>
 
@@ -99,7 +119,15 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
  <div class="eq" id="eq"></div>
  <div class="lyric" id="ly">Never gonna give you up…</div>
  <a class="play" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">▶ Press play 🎵</a>
+ <button class="next" onclick="go(4)">come back &amp; tap next ➜</button>
 </div>
+<div class="stage" id="s4"><h2 class="sm">I've been practicing my Spanish 🇪🇸</h2><p class="cap big">to help you on your next PA school exam 📚🩺</p><button class="next" onclick="go(5)">next ➜</button></div>
+<div class="stage" id="s5"><h2 class="md">“¿Dónde le duele?”<br>“En el corazón, doctora. Desde que la vi.”</h2><p class="tr">“Where does it hurt?” “In my heart, doctor. Ever since I saw you.” 💘</p><button class="next" onclick="go(6)">next ➜</button></div>
+<div class="stage" id="s6"><h2 class="md">I'm back December 12th 🎄</h2><p class="cap big">to host the Banner holiday party 🥂</p><button class="next" onclick="go(7)">next ➜</button></div>
+<div class="stage" id="s7"><h2 class="md">I have reservations the following Monday 🍽️</h2><p class="cap big">…and I need a date.</p><button class="next" onclick="go(8)">next ➜</button></div>
+<div class="stage" id="s8"><h2 class="md">Will you be my date? 💘</h2><p class="cap big">Dinner, Monday after the party. I'm paying (see Section 6).</p>
+ <div class="btns"><button class="yes" id="yes" onclick="celebrate()">YES 💖</button><button class="no" id="no">no</button></div></div>
+<div class="stage" id="s9"><div class="ring"></div><div class="ring" style="animation-delay:.6s"></div><div class="ring" style="animation-delay:1.2s"></div><div class="dancer" style="font-size:22vw">🥰</div><h2 class="sm" style="margin-top:10px">She said YES! 🎉</h2><p class="cap big">Dinner is officially binding. Wear something cute. 😘</p></div>
 
 <script>
 const $=id=>document.getElementById(id);
@@ -121,15 +149,28 @@ function sign(){
   err.textContent='';
   go(1);
 }
+const emo={1:['🎉','🎊','😜','🤪','✨'],2:['❤️','💖','💋','😏','🔥'],3:['🎵','🎶','🕺','💃','❤️','🌹'],4:['📚','🩺','🇪🇸','💊','✏️'],5:['💘','🌶️','💃','🌹','🇪🇸'],6:['🎄','🎁','🥂','✨','❄️'],7:['🍷','🍝','🕯️','💕'],8:['💘','💗','💞','😍']};
 function go(n){
   timers.forEach(clearInterval);timers=[];
   show(n);
-  if(n===1){const s=$('s1');s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake');timers.push(burst(s,['🎉','🎊','😜','🤪','✨'],120))}
-  if(n===2){timers.push(burst($('s2'),['❤️','💖','💋','😏','🔥'],150))}
+  const s=$('s'+n);
+  if(n===1){s.classList.remove('shake');void s.offsetWidth;s.classList.add('shake')}
+  if(emo[n])timers.push(burst(s,emo[n],n===1?120:170));
   if(n===3){
-    const s=$('s3');timers.push(burst(s,['🎵','🎶','🕺','💃','❤️','🌹'],140));
     const lines=['Never gonna give you up…','Never gonna let you down…','Never gonna run around…','…and ask you out for dinner 😘','Never gonna say goodbye…','Your move 😏'];
     let i=0;$('ly').textContent=lines[0];timers.push(setInterval(()=>{i=(i+1)%lines.length;$('ly').textContent=lines[i];$('dn').textContent=['🕺','💃','😎','🥰'][i%4]},2600));
   }
 }
+function celebrate(){
+  go(9);const s=$('s9');
+  s.style.background='radial-gradient(#fff59d,#ff4081 55%,#6a1b9a)';
+  const e=['💖','🎉','🥂','✨','💃','🕺','🌹','🎊','💋','❤️‍🔥'];
+  for(let i=0;i<45;i++){const d=document.createElement('div');d.className='fl';d.textContent=e[i%e.length];
+    d.style.left=Math.random()*100+'vw';d.style.fontSize=(24+Math.random()*44)+'px';
+    d.style.animationDuration=(2+Math.random()*3)+'s';d.style.animationDelay=(Math.random()*1.2)+'s';s.appendChild(d)}
+  timers.push(burst(s,e,100));
+}
+const no=$('no');
+function dodge(ev){ev.preventDefault();no.style.left=(Math.random()*200-100)+'px';no.style.top=(Math.random()*120-60)+'px';no.textContent=['nope 😜','too slow!','try YES 😏','nice try'][Math.floor(Math.random()*4)]}
+no.addEventListener('mouseenter',dodge);no.addEventListener('touchstart',dodge);no.addEventListener('click',dodge);
 </script>
