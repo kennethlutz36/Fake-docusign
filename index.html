@@ -40,7 +40,7 @@ button.go:hover{background:#1d3a70}
 #s2{background:radial-gradient(#ff4f8b,#7b1fa2)}
 #s3{background:linear-gradient(135deg,#ff6ec7,#7873f5,#4adede,#ff6ec7);background-size:400% 400%;animation:bg 6s linear infinite}
 @keyframes bg{50%{background-position:100% 100%}}
-.next{position:absolute;bottom:6vh;right:6vw;background:#fff;color:#7b1fa2;border:0;border-radius:50px;padding:14px 26px;font:bold 20px Arial,sans-serif;cursor:pointer;box-shadow:0 6px 0 #0004;opacity:0;animation:fade .6s 1.6s forwards,nudge 1s 2.2s infinite}
+.next{max-width:86vw;position:absolute;bottom:6vh;right:6vw;background:#fff;color:#7b1fa2;border:0;border-radius:50px;padding:14px 26px;font:bold 20px Arial,sans-serif;cursor:pointer;box-shadow:0 6px 0 #0004;opacity:0;animation:fade .6s 1.6s forwards,nudge 1s 2.2s infinite}
 .next:active{transform:translateY(4px);box-shadow:0 2px 0 #0004}
 @keyframes nudge{50%{transform:translateX(10px)}}
 .fl{position:absolute;bottom:-60px;animation:rise linear forwards;pointer-events:none}
@@ -112,12 +112,12 @@ a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border
  <div class="foot">Page 1 of 1 &nbsp;|&nbsp; Strictly Private &amp; Confidential &nbsp;|&nbsp; Unauthorised distribution may result in dinner</div>
 </div>
 
-<div class="stage" id="s1"><h2>GOTCHA! 😜</h2><p class="cap">Did you really think this was legally binding?</p><button class="next" onclick="go(2)">next ➜</button></div>
+<div class="stage" id="s1"><h2>GOTCHA! 😜</h2><p class="cap">Did you really think this was legally binding?</p><button class="next" onclick="go(2)">Actually, tap here for the full report ➜</button></div>
 <div class="stage" id="s2"><h2>You're sexy 😏</h2><p class="cap">Just wanted you to know. That's the whole report.</p><button class="next" onclick="go(4)">one more thing ➜</button></div>
 <div class="stage" id="s4"><h2 class="sm">I've been practicing my Spanish 🇪🇸</h2><p class="cap big">to help you on your next PA school exam 📚🩺</p><button class="next" onclick="go(5)">next ➜</button></div>
-<div class="stage" id="s5"><h2 class="md">“Doctora, vine porque tengo una condición muy especial…<br>y usted es la única que sabe la respuesta.”</h2><p class="tr">“Doctor, I came because I have a very special condition… and you're the only one who knows the answer.” 🩺💘 (Symptoms: butterflies, sweaty palms, can't stop thinking about you.)</p><button class="next" onclick="go(7)">next ➜</button></div>
+<div class="stage" id="s5"><h2 class="md">“Doctora, tengo una condición muy especial…<br>y me dijeron que usted es la única que puede curarme.”</h2><p class="tr">“Doctor, I have a very special condition… and I heard you're the only one who can fix it.” 🩺💘<br>Symptoms: butterflies, sweaty palms, stalkerish behavior.</p><button class="next" onclick="go(7)">next ➜</button></div>
 <div class="stage" id="s7"><h2 class="md">I need a date Monday, December 14th 🍽️</h2><p class="cap big">for my dinner reservation.</p><button class="next" onclick="go(8)">next ➜</button></div>
-<div class="stage" id="s8"><h2 class="md">Will you be my date? 💘</h2><p class="cap big">Dinner, Monday after the party. I'm paying (see Section 6).</p>
+<div class="stage" id="s8"><h2 class="md">Will you be my date? 💘</h2><p class="cap big">I'll be down in Tucson. Dinner Monday, December 14th, and I'm paying (see Section 6).</p>
  <div class="btns"><button class="yes" id="yes" onclick="celebrate()">YES 💖</button><button class="no" id="no">no</button></div></div>
 <div class="stage" id="s9"><div class="ring"></div><div class="ring" style="animation-delay:.6s"></div><div class="ring" style="animation-delay:1.2s"></div><div class="dancer" style="font-size:22vw">🥰</div><h2 class="sm" style="margin-top:10px">She said YES! 🎉</h2><p class="cap big">Dinner is officially binding. Wear something cute. 😘</p></div>
 
