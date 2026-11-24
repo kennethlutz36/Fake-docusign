@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Confidential Non-Disclosure Agreement</title>
+<title>Confidential NDA</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#d9dce1;font-family:"Times New Roman",Times,serif;color:#111;display:flex;justify-content:center}
-.page{background:#fff;width:100%;max-width:760px;margin:24px 12px;padding:44px 56px 36px;box-shadow:0 6px 28px #0003;border-top:6px solid #14284b;position:relative}
+body{margin:0;background:#d9dce1;font-family:"Times New Roman",Times,serif;color:#111;display:flex;justify-content:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#err{color:#b3202a;font:bold 12px Arial,sans-serif;margin-top:8px;min-height:1em}
+.page{background:#fff;width:100%;max-width:760px;margin:24px 0;padding:44px 56px 36px;box-shadow:0 6px 28px #0003;border-top:6px solid #14284b;position:relative}
 .head{text-align:center;border-bottom:2px double #14284b;padding-bottom:12px;margin-bottom:16px}
 .firm{font-size:11px;letter-spacing:4px;color:#14284b;text-transform:uppercase}
 h1{margin:6px 0 2px;font-size:22px;letter-spacing:3px;color:#14284b}
@@ -53,7 +54,7 @@ button.go:hover{background:#1d3a70}
 @keyframes eq{from{height:8px}to{height:60px}}
 .lyric{color:#fff;font:bold 6vw Arial,sans-serif;text-shadow:0 3px 0 #0004;min-height:1.3em}
 .yt{margin-top:14px;width:min(86vw,420px);aspect-ratio:16/9;border:4px solid #fff;border-radius:12px;box-shadow:0 8px 0 #0004;background:#000}
-a.fb{color:#fff;font:12px Arial,sans-serif;margin-top:8px}
+a.play{margin-top:16px;background:#fff;color:#c2185b;text-decoration:none;border-radius:50px;padding:16px 34px;font:bold 22px Arial,sans-serif;box-shadow:0 6px 0 #0004;animation:nudge 1s infinite}
 @media(max-width:600px){.page{padding:28px 20px}.stamp{display:none}.sig{flex-direction:column;align-items:stretch;gap:12px}}
 </style></head><body>
 
@@ -86,6 +87,7 @@ a.fb{color:#fff;font:12px Arial,sans-serif;margin-top:8px}
   <div style="flex:.6"><label>Date</label><div class="line" style="font:16px Georgia,serif;padding-top:10px" id="d2"></div><div class="sigline">Date of Execution</div></div>
  </div>
  <div class="ack"><input type="checkbox" id="ck"><label for="ck">I have read, understood, and agree to be bound by the terms of this Agreement.</label></div>
+ <div id="err" role="alert"></div>
  <button class="go" onclick="sign()">Sign &amp; Unlock Report</button>
  <div class="foot">Page 1 of 1 &nbsp;|&nbsp; Strictly Private &amp; Confidential &nbsp;|&nbsp; Unauthorised distribution may result in dinner</div>
 </div>
@@ -96,8 +98,7 @@ a.fb{color:#fff;font:12px Arial,sans-serif;margin-top:8px}
  <div class="dancer" id="dn">🕺</div>
  <div class="eq" id="eq"></div>
  <div class="lyric" id="ly">Never gonna give you up…</div>
- <div id="yt"></div>
- <a class="fb" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">no sound? tap here for the song 🎵</a>
+ <a class="play" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">▶ Press play 🎵</a>
 </div>
 
 <script>
@@ -114,8 +115,10 @@ function burst(stage,emojis,every){
 }
 function show(n){document.querySelectorAll('.stage').forEach(s=>s.classList.remove('on'));$('s'+n).classList.add('on')}
 function sign(){
-  if(!$('sig').value.trim()){alert('Signature required, legally speaking.');return}
-  if(!$('ck').checked){alert('Please acknowledge that you have read the Agreement.');return}
+  const err=$('err');
+  if(!$('sig').value.trim()){err.textContent='Signature required, legally speaking.';return}
+  if(!$('ck').checked){err.textContent='Please acknowledge that you have read the Agreement.';return}
+  err.textContent='';
   go(1);
 }
 function go(n){
@@ -127,8 +130,6 @@ function go(n){
     const s=$('s3');timers.push(burst(s,['🎵','🎶','🕺','💃','❤️','🌹'],140));
     const lines=['Never gonna give you up…','Never gonna let you down…','Never gonna run around…','…and ask you out for dinner 😘','Never gonna say goodbye…','Your move 😏'];
     let i=0;$('ly').textContent=lines[0];timers.push(setInterval(()=>{i=(i+1)%lines.length;$('ly').textContent=lines[i];$('dn').textContent=['🕺','💃','😎','🥰'][i%4]},2600));
-    $('yt').innerHTML='<iframe class="yt" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&playsinline=1" title="Song" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
   }
 }
 </script>
-</body></html>
