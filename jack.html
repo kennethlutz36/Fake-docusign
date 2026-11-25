@@ -1,0 +1,254 @@
+<title>Jack's Carrier Service</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap">
+<style>
+/* Layout: one rounded sky-blue card per step, centered; Jack the pigeon crosses the page between steps. */
+:root{
+  --sky-top:#bfe3ff; --sky-bot:#ffe3d1; --card:#ffffff; --ink:#26344d; --muted:#5d6b85;
+  --accent:#ff5c8a; --accent-ink:#ffffff; --pick:#fff0f5; --line:#d6dff0; --bird:#8fa3bf;
+  --font-display:'Fredoka','Trebuchet MS',system-ui,sans-serif; --font-body:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:linear-gradient(180deg,var(--sky-top),var(--sky-bot)) fixed;background-color:var(--sky-top);color:var(--ink);font-family:var(--font-body);font-size:17px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px;overflow-x:hidden}
+.cloud{position:fixed;font-size:64px;opacity:.85;pointer-events:none;animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(-20vw)}to{transform:translateX(120vw)}}
+.wrap{max-width:560px;margin:0 auto;min-height:calc(100% - 8px);display:flex;flex-direction:column;justify-content:center;gap:16px;position:relative}
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:10px;height:10px;border-radius:50%;background:#ffffffaa;border:2px solid #ffffff}
+.dots i.on{background:var(--accent);border-color:var(--accent)}
+.card{background:var(--card);border-radius:28px;padding:28px 24px;box-shadow:0 12px 0 #26344d14,0 18px 40px #26344d22;text-align:center;position:relative;min-width:0}
+.card[hidden]{display:none}
+.card.enter{animation:enter .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes enter{from{opacity:0;transform:translateY(24px) scale(.94)}to{opacity:1;transform:none}}
+h1{font:700 clamp(26px,7vw,36px)/1.1 var(--font-display);margin:0 0 10px;text-wrap:balance}
+p{margin:0 0 14px;line-height:1.45;color:var(--muted);font-weight:700}
+.big{font-size:56px;line-height:1;margin-bottom:8px}
+.btn{font:700 19px var(--font-display);background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:14px 32px;cursor:pointer;box-shadow:0 6px 0 #c23a64;margin-top:10px}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c23a64}
+.btn[disabled]{background:#c9d1e3;box-shadow:0 6px 0 #a6b0c8;cursor:not-allowed}
+.btn.ghost{background:#fff;color:var(--accent);border:3px solid var(--accent);box-shadow:none}
+:focus-visible{outline:4px solid #26344d;outline-offset:3px}
+.hint{font-size:14px;min-height:1.2em;margin:8px 0 0}
+/* choices */
+.grid{display:grid;gap:12px;margin:16px 0 6px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.opt{font:700 18px var(--font-display);color:var(--ink);background:#fff;border:3px solid var(--line);border-radius:20px;padding:16px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;align-items:center;transition:transform .15s,background .15s,border-color .15s}
+.opt small{font:700 13px var(--font-body);color:var(--muted)}
+.opt .em{font-size:34px}
+.opt:hover{transform:translateY(-3px)}
+.opt[aria-pressed="true"]{background:var(--pick);border-color:var(--accent);transform:scale(1.04)}
+.opt[aria-pressed="true"]::after{content:"✓";color:var(--accent);font-size:16px}
+/* modal step */
+.modal{border:4px solid var(--ink);position:relative}
+.modal .bar{background:var(--ink);color:#fff;font:600 14px var(--font-display);letter-spacing:1px;text-align:left;padding:8px 14px;margin:-28px -24px 20px;border-radius:22px 22px 0 0;display:flex;justify-content:space-between}
+.modal .stamp{display:inline-block;border:3px solid #b3202a;color:#b3202a;font:700 14px var(--font-display);letter-spacing:3px;padding:4px 10px;transform:rotate(-6deg);margin-bottom:12px}
+/* birds */
+.bird{width:130px;height:auto;display:block}
+.wing{transform-origin:55px 45px;animation:flap .22s ease-in-out infinite alternate}
+.perched .wing{animation:none}
+@keyframes flap{from{transform:rotate(-18deg)}to{transform:rotate(26deg)}}
+.stage2{position:relative;height:150px;margin:6px 0 4px}
+.stage2 .bird{position:absolute;left:50%;bottom:0;margin-left:-65px;animation:flyin 2.2s cubic-bezier(.3,.7,.3,1) both}
+@keyframes flyin{0%{transform:translate(-110vw,-60px) rotate(8deg)}60%{transform:translate(8vw,-90px) rotate(-6deg)}100%{transform:translate(0,0) rotate(0)}}
+.stage2.landed .wing{animation:none}
+.bubble{background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px 16px;margin:0 auto 6px;max-width:420px;font:700 19px var(--font-display);color:var(--ink);opacity:0;transform:scale(.8);transform-origin:bottom center}
+.bubble.show{animation:bub .5s cubic-bezier(.2,1.6,.4,1) forwards}
+.bubble small{display:block;font:700 13px var(--font-body);color:var(--muted);margin-top:2px;letter-spacing:.5px}
+@keyframes bub{to{opacity:1;transform:scale(1)}}
+/* flight */
+#flyer{position:fixed;left:0;top:0;z-index:50;width:130px;pointer-events:none;display:none;will-change:transform}
+#flyer .mail{position:absolute;left:36px;top:70px;font-size:34px;display:none}
+#env{font-size:76px;display:inline-block;animation:bob 1s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-10px) rotate(4deg)}}
+#home{font-size:56px;display:inline-block}
+#home.pop{animation:homepop .8s cubic-bezier(.2,2,.4,1)}
+@keyframes homepop{from{transform:scale(1)}40%{transform:scale(1.5) rotate(-8deg)}to{transform:scale(1)}}
+.route{display:flex;justify-content:space-between;align-items:flex-end;margin:6px 6px 10px}
+.route span.lbl{display:block;font:700 12px var(--font-body);color:var(--muted)}
+.note{background:#f4f7ff;border:2px dashed var(--line);border-radius:16px;padding:12px;text-align:left;font:700 15px/1.45 var(--font-body);color:var(--ink);width:100%;resize:none;min-height:116px;margin:8px 0}
+.fade{animation:enter .5s ease both}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="jack" viewBox="0 0 130 100">
+  <polygon points="20,50 0,38 4,62 22,62" fill="#6b7f9e"/>
+  <ellipse cx="62" cy="56" rx="38" ry="27" fill="#8fa3bf"/>
+  <ellipse cx="68" cy="64" rx="26" ry="16" fill="#c9d6ea"/>
+  <g class="wing"><path d="M30 46 C50 14 86 22 90 52 C70 60 46 62 30 46Z" fill="#6b7f9e"/></g>
+  <circle cx="98" cy="38" r="18" fill="#8fa3bf"/>
+  <ellipse cx="88" cy="50" rx="10" ry="7" fill="#5fbf9f"/>
+  <polygon points="113,36 129,41 113,46" fill="#f5a623"/>
+  <circle cx="104" cy="34" r="4.2" fill="#fff"/><circle cx="105" cy="34" r="2.6" fill="#222"/>
+  <circle cx="102" cy="43" r="4" fill="#ff9db8" opacity=".8"/>
+  <path d="M84 24 C90 12 108 12 114 24Z" fill="#26344d"/><rect x="104" y="22" width="14" height="4" rx="2" fill="#26344d"/>
+  <path d="M56 82 l-2 12 M70 82 l-2 12" stroke="#f5a623" stroke-width="3.5" stroke-linecap="round"/>
+ </symbol>
+</svg>
+
+<div class="cloud" style="top:6%;animation-duration:70s">☁️</div>
+<div class="cloud" style="top:30%;animation-duration:110s;animation-delay:-40s;font-size:48px">☁️</div>
+<div class="cloud" style="top:72%;animation-duration:90s;animation-delay:-15s;font-size:54px">☁️</div>
+
+<svg id="flyer" viewBox="0 0 130 100" aria-hidden="true"><use href="#jack"/></svg>
+
+<main class="wrap">
+ <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+ <section class="card modal" id="c1" data-step="0">
+  <div class="bar"><span>NOTICE</span><span>✕</span></div>
+  <div class="stamp">AMENDMENT</div>
+  <h1>Don't worry, we can amend the contract date 📝</h1>
+  <p>Section 6 has been reviewed by legal (Jack). Terms are flexible.</p>
+  <button class="btn" id="b1">Okay, go on</button>
+ </section>
+
+ <section class="card" id="c2" data-step="1" hidden>
+  <div class="bubble" id="bub">psst… she'll be in town these 3 days 🤫<small>Dec 19 – 21</small></div>
+  <div class="stage2" id="st2"><svg class="bird" viewBox="0 0 130 100" role="img" aria-label="Jack the pigeon"><use href="#jack"/></svg></div>
+  <h1>Jack has news.</h1>
+  <p>He flew all the way from Tucson to whisper it to me.</p>
+  <button class="btn" id="b2">Next</button>
+ </section>
+
+ <section class="card" id="c3" data-step="2" hidden>
+  <div class="big">📅</div>
+  <h1>Which day works for a date?</h1>
+  <p>Pick as many as you like.</p>
+  <div class="grid" id="days" role="group" aria-label="Days">
+   <button class="opt" data-v="Sat, Dec 19" aria-pressed="false"><span class="em">🌤️</span>Saturday<small>Dec 19</small></button>
+   <button class="opt" data-v="Sun, Dec 20" aria-pressed="false"><span class="em">☕</span>Sunday<small>Dec 20</small></button>
+   <button class="opt" data-v="Mon, Dec 21" aria-pressed="false"><span class="em">🌙</span>Monday<small>Dec 21</small></button>
+  </div>
+  <div class="hint" id="h3"></div>
+  <button class="btn" id="b3">Next</button>
+ </section>
+
+ <section class="card" id="c4" data-step="3" hidden>
+  <div class="big">💘</div>
+  <h1>What kind of date?</h1>
+  <p>Pick whatever sounds good. Mix and match.</p>
+  <div class="grid" id="vibes" role="group" aria-label="Date types">
+   <button class="opt" data-v="Hungry" aria-pressed="false"><span class="em">🍝</span>Hungry</button>
+   <button class="opt" data-v="Active" aria-pressed="false"><span class="em">🥾</span>Active</button>
+   <button class="opt" data-v="Relaxed" aria-pressed="false"><span class="em">🛋️</span>Relaxed</button>
+   <button class="opt" data-v="Adventurous" aria-pressed="false"><span class="em">🎢</span>Adventurous</button>
+   <button class="opt" data-v="Cozy" aria-pressed="false"><span class="em">☕</span>Cozy</button>
+   <button class="opt" data-v="Dressed up" aria-pressed="false"><span class="em">🥂</span>Dressed up</button>
+   <button class="opt" data-v="Drinks" aria-pressed="false"><span class="em">🍹</span>Drinks</button>
+   <button class="opt" data-v="Surprise me" aria-pressed="false"><span class="em">🎁</span>Surprise me</button>
+  </div>
+  <div class="hint" id="h4"></div>
+  <button class="btn" id="b4">Send it with Jack 🐦</button>
+ </section>
+
+ <section class="card" id="c5" data-step="4" hidden>
+  <div class="route"><div><span id="env">💌</span><span class="lbl">your picks</span></div><div style="text-align:right"><span id="home">🏠</span><span class="lbl">me</span></div></div>
+  <h1 id="t5">Jack is picking up your note…</h1>
+  <p id="p5">Carrier pigeon, fully licensed in two states.</p>
+  <div id="after" hidden>
+   <p>Pigeons do get lost, so here's a backup copy. Tap copy and text it to me and I'll come back with a confirmed plan.</p>
+   <textarea class="note" id="note" readonly aria-label="Your picks"></textarea>
+   <button class="btn" id="copy">Copy note</button>
+   <div class="hint" id="h5"></div>
+  </div>
+ </section>
+</main>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var cards=['c1','c2','c3','c4','c5'].map($), dots=[].slice.call(document.querySelectorAll('#dots i'));
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function show(i){
+    cards.forEach(function(c,k){c.hidden=k!==i;c.classList.remove('enter')});
+    void cards[i].offsetWidth;cards[i].classList.add('enter');
+    dots.forEach(function(d,k){d.classList.toggle('on',k===i)});
+    window.scrollTo(0,0);
+  }
+  dots[0].classList.add('on');
+  function picks(groupId){return [].slice.call(document.querySelectorAll('#'+groupId+' .opt[aria-pressed="true"]')).map(function(b){return b.getAttribute('data-v')})}
+  ['days','vibes'].forEach(function(g){
+    $(g).addEventListener('click',function(e){
+      var b=e.target.closest('.opt');if(!b)return;
+      b.setAttribute('aria-pressed',b.getAttribute('aria-pressed')==='true'?'false':'true');
+      $(g==='days'?'h3':'h4').textContent='';
+    });
+  });
+
+  $('b1').onclick=function(){show(1);startWhisper()};
+  function startWhisper(){
+    var b=$('bub');b.classList.remove('show');
+    $('st2').classList.remove('landed');
+    setTimeout(function(){b.classList.add('show');$('st2').classList.add('landed')},reduce?50:2100);
+  }
+  $('b2').onclick=function(){show(2)};
+  $('b3').onclick=function(){
+    if(!picks('days').length){$('h3').textContent='Pick at least one day (Jack insists).';return}
+    show(3);
+  };
+  $('b4').onclick=function(){
+    if(!picks('vibes').length){$('h4').textContent='Pick at least one vibe, or tap Surprise me.';return}
+    show(4);fly();
+  };
+
+  function buildNote(){
+    return "Jack's delivery 🐦\nDays that work: "+picks('days').join(', ')+"\nDate vibe: "+picks('vibes').join(', ');
+  }
+  function anim(el,frames,ms,ease){
+    if(!el.animate){el.style.transform=frames[frames.length-1].transform;return Promise.resolve()}
+    var a=el.animate(frames,{duration:reduce?60:ms,easing:ease||'ease-in-out',fill:'forwards'});
+    return a.finished.catch(function(){});
+  }
+  function center(el){var r=el.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}}
+  async function fly(){
+    var f=$('flyer'),mail=document.createElement('span');
+    f.style.display='block';
+    var W=innerWidth,H=innerHeight,env=center($('env')),home=center($('home'));
+    var half=65;
+    // 1: swoop in from the left to the envelope
+    await anim(f,[
+      {transform:'translate('+(-160)+'px,'+(H*.15)+'px) rotate(10deg) scale(1)'},
+      {transform:'translate('+(W*.35)+'px,'+(H*.05)+'px) rotate(-8deg) scale(1)',offset:.5},
+      {transform:'translate('+(env.x-half)+'px,'+(env.y-50)+'px) rotate(12deg) scale(1)'}
+    ],1500,'cubic-bezier(.4,.1,.3,1)');
+    // 2: grab the letter
+    $('env').style.visibility='hidden';
+    $('t5').textContent='Got it! Jack is off to find me…';
+    $('p5').textContent='Please hold your applause. He is concentrating.';
+    var m=document.createElement('div');m.textContent='💌';m.style.cssText='position:absolute;left:44px;top:66px;font-size:34px';
+    f.parentNode.appendChild(m);
+    // keep mail on the bird: use a fixed-position sibling that follows via same animation
+    m.style.position='fixed';m.style.left='0';m.style.top='0';m.style.zIndex=51;m.style.pointerEvents='none';
+    var ox=env.x-half+44,oy=env.y-50+66;
+    var dx=home.x-half,dy=home.y-50;
+    var up=Math.max(40,H*.08);
+    var p1=anim(f,[
+      {transform:'translate('+(env.x-half)+'px,'+(env.y-50)+'px) rotate(12deg) scale(1)'},
+      {transform:'translate('+(W*.5)+'px,'+(env.y-120)+'px) rotate(-14deg) scale(.9)',offset:.35},
+      {transform:'translate('+(dx)+'px,'+(dy)+'px) rotate(6deg) scale(.45)'}
+    ],2400,'cubic-bezier(.3,.1,.4,1)');
+    var p2=anim(m,[
+      {transform:'translate('+ox+'px,'+oy+'px) scale(1)'},
+      {transform:'translate('+(W*.5+44*.9)+'px,'+(env.y-120+66*.9)+'px) scale(.9)',offset:.35},
+      {transform:'translate('+(dx+44*.45)+'px,'+(dy+66*.45)+'px) scale(.45)'}
+    ],2400,'cubic-bezier(.3,.1,.4,1)');
+    await Promise.all([p1,p2]);
+    m.remove();f.style.display='none';
+    $('home').classList.add('pop');
+    $('t5').textContent='Off he goes! 🎉';
+    $('p5').textContent='Jack's flying it over now.';
+    $('note').value=buildNote();
+    $('after').hidden=false;$('after').classList.add('fade');
+  }
+  $('copy').onclick=function(){
+    var n=$('note'),h=$('h5');
+    function fallback(){n.removeAttribute('readonly');n.focus();n.select();try{document.execCommand('copy')}catch(e){}n.setAttribute('readonly','');h.textContent='Selected. Copy it and send it my way.'}
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(n.value).then(function(){h.textContent='Copied! Now text it to me 💌'},fallback);
+    }else fallback();
+  };
+})();
+</script>
